@@ -9,11 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:hotel_management/main.dart';
+import 'package:hotel_management/repository/NetworkRepository.dart';
+import 'package:hotel_management/routes/routes.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget( MyApp(routes: Routes(NetworkRepository())));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
