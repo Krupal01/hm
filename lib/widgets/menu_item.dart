@@ -47,11 +47,9 @@ class _MenuItemState extends State<MenuItem> {
               horizontal: 5,
               vertical: 2,
             ),
-            child: const Text(
+            child: Text(
               "Category",
-              style: TextStyle(
-                fontSize: 14,
-              ),
+              style: primaryTextStyles['20B'],
             ),
           ),
         ),
