@@ -4,12 +4,15 @@ import 'package:hotel_management/cubit/login_cubit.dart';
 import 'package:hotel_management/routes/routes_name.dart';
 import 'package:hotel_management/screens/dash_board_screen.dart';
 import 'package:hotel_management/screens/login_screen.dart';
+import 'package:hotel_management/screens/menu_screen.dart';
+import 'package:hotel_management/screens/oder_details_screen.dart';
 
 import '../repository/NetworkRepository.dart';
 import '../screens/splash_screen.dart';
 
 class Routes {
   final NetworkRepository networkRepository;
+
   Routes(this.networkRepository);
 
   Route? onGenerateRoute(RouteSettings settings) {
@@ -28,6 +31,17 @@ class Routes {
       case DASHBOARD_SCREEN:
         return MaterialPageRoute(
           builder: (context) => DashBoardScreen(),
+        );
+      case ORDER_DETAILS_SCREEN:
+        return MaterialPageRoute(
+          builder: (context) => OrderDetailsScreen(
+            isDetails: (settings.arguments as Map)[ARG_IS_DETAILS],
+            orderId: (settings.arguments as Map)[ARG_ORDER_ID],
+          ),
+        );
+      case MENU_SCREEN:
+        return MaterialPageRoute(
+          builder: (context) => const MenuScreen(),
         );
     }
     return null;

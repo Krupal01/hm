@@ -4,8 +4,11 @@ import 'package:hotel_management/widgets/status_widget.dart';
 import 'package:hotel_management/widgets/styles.dart';
 
 class TableWidget extends StatefulWidget {
-  const TableWidget({Key? key}) : super(key: key);
-
+  const TableWidget(
+      {Key? key, required this.onRightSwap, required this.onLeftSwap})
+      : super(key: key);
+  final VoidCallback onRightSwap;
+  final Function(bool isClean) onLeftSwap;
   @override
   State<TableWidget> createState() => _TableWidgetState();
 }
@@ -18,10 +21,24 @@ class _TableWidgetState extends State<TableWidget> {
       key: ValueKey<int>(1),
       background: Container(
         color: Colors.green,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+        child: const Icon(
+          Icons.list_alt_sharp,
+          color: Colors.white,
+        ),
       ),
       secondaryBackground: Container(
         color:
             isClean ? Colors.red : Colors.yellow, //check table is clean or not
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.symmetric(horizontal: 50.0),
+        child: Icon(
+          isClean
+              ? Icons.cleaning_services_sharp
+              : Icons.do_disturb_alt_rounded,
+          color: Colors.white,
+        ),
       ),
       onDismissed: (direction) {
         if (direction == DismissDirection.endToStart) {
@@ -37,8 +54,10 @@ class _TableWidgetState extends State<TableWidget> {
             isClean =
                 !isClean; // call update status api to check clean table or not
           });
+          widget.onLeftSwap(isClean);
           return !isClean;
         } else {
+          widget.onRightSwap();
           return false;
         }
       },

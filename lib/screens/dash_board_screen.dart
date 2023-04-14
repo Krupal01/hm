@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_management/network/NetworkService.dart';
 import 'package:hotel_management/routes/routes_name.dart';
+import 'package:hotel_management/widgets/custom_drawer.dart';
 import 'package:hotel_management/widgets/table_widget.dart';
 
 import '../widgets/custom_app_bar.dart';
@@ -26,22 +27,42 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: CustomAppBar(
         title: 'Dashboard',
         isDrawerIcon: true,
         onLeadPress: () => _openDrawer(),
       ),
+      drawer: const CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(15),
-        child: ListView.builder(
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            return const TableWidget();
-          },
+        child: SingleChildScrollView(
+          child: ListView.builder(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: 10,
+            itemBuilder: (context, index) {
+              return TableWidget(
+                onLeftSwap: (isClean) {},
+                onRightSwap: () => Navigator.of(context).pushNamed(
+                  ORDER_DETAILS_SCREEN,
+                  arguments: {
+                    ARG_IS_DETAILS: true,
+                  },
+                ),
+              );
+            },
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed(ORDER_DETAILS_SCREEN),
+        child: const Icon(Icons.add),
+        onPressed: () => Navigator.of(context).pushNamed(
+          ORDER_DETAILS_SCREEN,
+          arguments: {
+            ARG_IS_DETAILS: false,
+          },
+        ),
       ),
     );
   }
